@@ -18,22 +18,20 @@ This project builds an end-to-end drone vision pipeline:
 
 ```text
 drone-human-detection-counting-system/
-├── notebook.ipynb                  ← Training & detection notebook
-├── notebook_extended.ipynb         ← Tracking & evaluation notebook
-├── visdrone_yolo.yaml              ← Dataset config (auto-generated)
-├── outputs/
+├── drone-human-detection-counting-system.ipynb                  ← Training & detection notebook
+├── drone-human-detection-counting-system-extended.ipynb         ← Tracking & evaluation notebook
+├── visdrone_yolo.yaml                                           ← Dataset config (auto-generated)
+├── Output/
 │   ├── eda_class_distribution.png
 │   ├── sample_gt_annotations.png
 │   ├── training_curves.png
-│   ├── confusion_matrix.png
-│   ├── confusion_matrix_normalized.png
-│   ├── BoxPR_curve.png
-│   ├── BoxF1_curve.png
 │   ├── tracker_comparison.png
-│   ├── tracker_comparison_table.png
-│   └── fps_benchmark.png
-├── runs/detect/visdrone_yolov8s/
-│   ├── weights/best.pt             ← Fine-tuned YOLOv8s weights
+│   ├── tracker_quantitative.png
+│   ├── fps_benchmark.png
+│   ├── per_class_ap.png
+│   ├── training_curves.png
+├── Runs
+│   ├── best.pt              ← Fine-tuned YOLOv8s weights
 │   ├── results.csv
 │   └── *.png
 └── README.md
