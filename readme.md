@@ -14,13 +14,13 @@ This project builds an end-to-end drone vision pipeline:
 - **Tracking**: Multi-tracker comparison — ByteTrack vs BoT-SORT
 - **Counting**: Class-aware human counting (pedestrian, people, bicycle, tricycle, motor)
 
----
-
 ## Repository Structure
+
+```text
 drone-human-detection-counting-system/
-├── notebook.ipynb                        ← Training & detection notebook
-├── notebook_extended.ipynb               ← Tracking & evaluation notebook
-├── visdrone_yolo.yaml                    ← Dataset config (auto-generated)
+├── notebook.ipynb                  ← Training & detection notebook
+├── notebook_extended.ipynb         ← Tracking & evaluation notebook
+├── visdrone_yolo.yaml              ← Dataset config (auto-generated)
 ├── outputs/
 │   ├── eda_class_distribution.png
 │   ├── sample_gt_annotations.png
@@ -33,10 +33,11 @@ drone-human-detection-counting-system/
 │   ├── tracker_comparison_table.png
 │   └── fps_benchmark.png
 ├── runs/detect/visdrone_yolov8s/
-│   ├── weights/best.pt                   ← Fine-tuned YOLOv8s weights
+│   ├── weights/best.pt             ← Fine-tuned YOLOv8s weights
 │   ├── results.csv
 │   └── *.png
 └── README.md
+```
 
 ## Dataset
 
