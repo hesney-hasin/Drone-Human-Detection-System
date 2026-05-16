@@ -165,9 +165,6 @@ model.track('your_drone_video.mp4', tracker='botsort.yaml', conf=0.25, save=True
 ### Per-Class AP
 ![Per Class AP](Output/per_class_ap.png)
 
-### Results (from Ultralytics)
-![Results](Output/results.png)
-
 ### YOLOv8s Metrics + Tracker Comparison
 ![Results Summary](Output/results_summary.png)
 
@@ -175,10 +172,10 @@ model.track('your_drone_video.mp4', tracker='botsort.yaml', conf=0.25, save=True
 ![Tracker Quantitative](Output/tracker_quantitative.png)
 
 ### Multi-Tracker Visual Comparison (ByteTrack | BoT-SORT)
-![Tracker Comparison](Outputs/tracker_comparison.png)
+![Tracker Comparison](Output/tracker_comparison.png)
 
 ### Inference Speed Benchmark
-![FPS Benchmark](Outputs/fps_benchmark.png)
+![FPS Benchmark](Output/fps_benchmark.png)
 
 ---
 
