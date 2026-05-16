@@ -1,0 +1,17 @@
+gitignore = """
+# Model weights
+*.pt
+*.pth
+
+# Large videos
+*.mp4
+
+# Python cache
+__pycache__/
+*.pyc
+"""
+
+with open('/kaggle/working/.gitignore', 'w') as f:
+    f.write(gitignore)
+
+print('Created .gitignore')
