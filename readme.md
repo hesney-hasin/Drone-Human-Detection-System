@@ -136,6 +136,105 @@ model.track('your_drone_video.mp4', tracker='bytetrack.yaml', conf=0.25, save=Tr
 # BoT-SORT on video
 model.track('your_drone_video.mp4', tracker='botsort.yaml', conf=0.25, save=True)
 ```
+## Improvements & Design Decisions
+
+This section documents deliberate improvements made beyond the baseline implementation,
+across detection, counting, tracking, and training.
+
+---
+
+### Detection Improvements
+
+- **Lower confidence threshold** (`conf=0.25` instead of default `0.35`):
+  Captures more detections in aerial view where objects are small and model confidence
+  is naturally lower — reduces missed detections without overwhelming false positives.
+
+- **Tighter NMS IoU threshold** (`iou=0.4` instead of default `0.5`):
+  Aerial footage has densely packed objects (cars at intersections, crowds).
+  Lowering IoU suppresses duplicate boxes on the same object more aggressively.
+
+- **Label suppression for tiny boxes**:
+  Labels are only drawn when `box_w > 40 and box_h > 40`. At drone altitude,
+  most objects are very small — drawing labels on every box creates unreadable clutter.
+  This keeps the visualization clean without losing bounding box information.
+
+- **Custom color-coded bounding boxes per class**:
+  Instead of Ultralytics default `results.plot()`, all boxes are drawn manually
+  with class-specific colors. This makes it significantly easier to visually
+  distinguish object types (green = humans, orange = cars, magenta = bus, etc.)
+
+---
+
+### Counting Improvements
+
+- **Class-aware human counting**:
+  Rather than counting all detections, humans are defined as
+  `{pedestrian, people, bicycle, tricycle, awning-tricycle, motor}` —
+  all classes that represent a person or person-operated micro-vehicle.
+  This gives a more meaningful count than a raw bounding box total.
+
+- **10-frame rolling average smoothing buffer**:
+  Raw frame-by-frame counts fluctuate heavily due to detection inconsistency.
+  A `deque(maxlen=10)` smoothing buffer averages the last 10 frames,
+  producing a stable count overlay — both raw and smoothed values are shown simultaneously.
+
+- **Frame progress counter overlay**:
+  `Frame: N/Total` is displayed on every frame so the viewer can track
+  progress through the video without external tooling.
+
+---
+
+### Tracking Improvements
+
+- **`persist=True` for stateful tracking**:
+  Enables the tracker to maintain track state across frames, which is
+  required for consistent ID assignment — without this, IDs reset every frame.
+
+- **Two complementary trackers compared**:
+  ByteTrack (speed-optimized) and BoT-SORT (accuracy-optimized) are both
+  implemented and compared quantitatively on the same video, giving a
+  data-driven basis for tracker selection.
+
+- **BoT-SORT selected as recommended tracker**:
+  BoT-SORT includes Global Motion Compensation (GMC) which accounts for
+  camera motion — a unique challenge in drone footage where the camera
+  may pan or tilt. ByteTrack has no motion compensation and loses tracks
+  during camera movement.
+
+- **Quantitative tracker comparison**:
+  Both trackers are benchmarked on the same 900-frame video measuring:
+  total unique IDs assigned, average tracks per frame, estimated ID switches,
+  and processing FPS — providing an objective comparison rather than a visual one only.
+
+---
+
+### Training Improvements
+
+- **Higher input resolution** (`imgsz=960` vs default `640`):
+  VisDrone objects are extremely small at drone altitude. Training at 960px
+  gives the model significantly more pixel information per object,
+  directly improving detection of small objects like pedestrians and bicycles.
+
+- **Dual GPU DDP training** (`device=[0,1]`):
+  Distributed Data Parallel across both T4 GPUs halves training time
+  and doubles effective batch size (16 total, 8 per GPU).
+
+- **Normalized batch size scaling** (`nbs=64`):
+  Ultralytics scales the learning rate relative to `nbs`. Setting `nbs=64`
+  ensures the LR is correctly scaled for the actual batch size,
+  preventing under/over-shooting during optimization.
+
+- **Drone-specific augmentation pipeline**:
+  `copy_paste=0.3` is particularly effective for VisDrone — it copies
+  object instances across images, artificially increasing rare class
+  representation (bus, awning-tricycle) which suffer from class imbalance.
+  `mixup=0.1` and `mosaic=1.0` further simulate the dense, multi-scale
+  nature of aerial imagery.
+
+- **RAM caching** (`cache='ram'`):
+  Dataset cached in RAM eliminates disk I/O bottleneck during training,
+  maximizing GPU utilization on Kaggle's limited I/O bandwidth.
+
 
 ---
 
