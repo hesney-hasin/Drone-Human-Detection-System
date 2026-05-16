@@ -191,5 +191,5 @@ model.track('your_drone_video.mp4', tracker='botsort.yaml', conf=0.25, save=True
 
 ## Author
 
-**Maliha Hasin** — BSc CSE (Data Science), East West University
-GitHub: [@hesney-hasin](https://github.com/hesney-hasin)
+**Hasnay Hasin** — BSc CSE (Data Science), East West University
+LinkedIn: [hesney-hasin](https://www.linkedin.com/in/hesney-hasin-maliha/))
