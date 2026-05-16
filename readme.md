@@ -11,7 +11,7 @@ This project builds an end-to-end drone vision pipeline:
 - **Dataset**: VisDrone2019-DET (10 classes, aerial imagery)
 - **Model**: YOLOv8s fine-tuned for 50 epochs on dual T4 GPUs
 - **Detection**: Frame-by-frame human and vehicle detection with count overlay
-- **Tracking**: Multi-tracker comparison — ByteTrack vs BoT-SORT
+- **Tracking**: Multi-tracker comparison - ByteTrack vs BoT-SORT
 - **Counting**: Class-aware human counting (pedestrian, people, bicycle, tricycle, motor)
 
 ## Repository Structure
@@ -110,7 +110,7 @@ Frame-by-frame detection on aerial traffic video with:
 | **ByteTrack** | IoU + Kalman + low-conf detections | ★★★★★ Fast | ★★★★ Good | ✗ No |
 | **BoT-SORT** | ByteTrack + Camera Motion Compensation + ReID | ★★★★ Good | ★★★★★ Best | ✓ Partial |
 
-**Recommendation**: BoT-SORT performs best on drone footage due to global motion compensation (GMC) that handles aerial camera pan and tilt — a unique challenge not addressed by ByteTrack.
+**Recommendation**: BoT-SORT performs best on drone footage due to global motion compensation (GMC) that handles aerial camera pan and tilt, a unique challenge not addressed by ByteTrack.
 
 ---
 
@@ -145,7 +145,7 @@ across detection, counting, tracking, and training.
 
 - **Lower confidence threshold** (`conf=0.25` instead of default `0.35`):
   Captures more detections in aerial view where objects are small and model confidence
-  is naturally lower — reduces missed detections without overwhelming false positives.
+  is naturally lower which reduces missed detections without overwhelming false positives.
 
 - **Tighter NMS IoU threshold** (`iou=0.4` instead of default `0.5`):
   Aerial footage has densely packed objects (cars at intersections, crowds).
@@ -153,7 +153,7 @@ across detection, counting, tracking, and training.
 
 - **Label suppression for tiny boxes**:
   Labels are only drawn when `box_w > 40 and box_h > 40`. At drone altitude,
-  most objects are very small — drawing labels on every box creates unreadable clutter.
+  most objects are very small , drawing labels on every box creates unreadable clutter.
   This keeps the visualization clean without losing bounding box information.
 
 - **Custom color-coded bounding boxes per class**:
@@ -186,7 +186,7 @@ across detection, counting, tracking, and training.
 
 - **`persist=True` for stateful tracking**:
   Enables the tracker to maintain track state across frames, which is
-  required for consistent ID assignment — without this, IDs reset every frame.
+  required for consistent ID assignment - without this, IDs reset every frame.
 
 - **Two complementary trackers compared**:
   ByteTrack (speed-optimized) and BoT-SORT (accuracy-optimized) are both
@@ -195,14 +195,14 @@ across detection, counting, tracking, and training.
 
 - **BoT-SORT selected as recommended tracker**:
   BoT-SORT includes Global Motion Compensation (GMC) which accounts for
-  camera motion — a unique challenge in drone footage where the camera
+  camera motion - a unique challenge in drone footage where the camera
   may pan or tilt. ByteTrack has no motion compensation and loses tracks
   during camera movement.
 
 - **Quantitative tracker comparison**:
   Both trackers are benchmarked on the same 900-frame video measuring:
   total unique IDs assigned, average tracks per frame, estimated ID switches,
-  and processing FPS — providing an objective comparison rather than a visual one only.
+  and processing FPS - providing an objective comparison rather than a visual one only.
 
 ---
 
