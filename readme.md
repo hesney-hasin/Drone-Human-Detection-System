@@ -159,13 +159,26 @@ model.track('your_drone_video.mp4', tracker='botsort.yaml', conf=0.25, save=True
 
 ## Sample Outputs
 
-| EDA — Class Distribution | Confusion Matrix |
-|---|---|
-| ![eda](outputs/eda_class_distribution.png) | ![cm](outputs/confusion_matrix_normalized.png) |
+### Training Curves
+![Training Curves](outputs/training_curves.png)
 
-| Training Curves | Tracker Comparison |
-|---|---|
-| ![curves](outputs/training_curves.png) | ![tracker](outputs/tracker_comparison_table.png) |
+### Per-Class AP
+![Per Class AP](outputs/per_class_ap.png)
+
+### Results (from Ultralytics)
+![Results](outputs/results.png)
+
+### YOLOv8s Metrics + Tracker Comparison
+![Results Summary](outputs/results_summary.png)
+
+### Tracker Quantitative Metrics
+![Tracker Quantitative](outputs/tracker_quantitative.png)
+
+### Multi-Tracker Visual Comparison (ByteTrack | BoT-SORT)
+![Tracker Comparison](outputs/tracker_comparison.png)
+
+### Inference Speed Benchmark
+![FPS Benchmark](outputs/fps_benchmark.png)
 
 ---
 
