@@ -1,6 +1,44 @@
+#  Drone Human Detection & Counting System
+
+Fine-tuned YOLOv8s on the VisDrone2019-DET dataset for aerial human and vehicle detection, with multi-tracker comparison using ByteTrack and BoT-SORT.
+
 ---
 
-## 📊 Dataset
+##  Overview
+
+This project builds an end-to-end drone vision pipeline:
+
+- **Dataset**: VisDrone2019-DET (10 classes, aerial imagery)
+- **Model**: YOLOv8s fine-tuned for 50 epochs on dual T4 GPUs
+- **Detection**: Frame-by-frame human and vehicle detection with count overlay
+- **Tracking**: Multi-tracker comparison — ByteTrack vs BoT-SORT
+- **Counting**: Class-aware human counting (pedestrian, people, bicycle, tricycle, motor)
+
+---
+
+## Repository Structure
+drone-human-detection-counting-system/
+├── notebook.ipynb                        ← Training & detection notebook
+├── notebook_extended.ipynb               ← Tracking & evaluation notebook
+├── visdrone_yolo.yaml                    ← Dataset config (auto-generated)
+├── outputs/
+│   ├── eda_class_distribution.png
+│   ├── sample_gt_annotations.png
+│   ├── training_curves.png
+│   ├── confusion_matrix.png
+│   ├── confusion_matrix_normalized.png
+│   ├── BoxPR_curve.png
+│   ├── BoxF1_curve.png
+│   ├── tracker_comparison.png
+│   ├── tracker_comparison_table.png
+│   └── fps_benchmark.png
+├── runs/detect/visdrone_yolov8s/
+│   ├── weights/best.pt                   ← Fine-tuned YOLOv8s weights
+│   ├── results.csv
+│   └── *.png
+└── README.md
+
+## Dataset
 
 **VisDrone2019-DET** — drone-captured imagery with 10 object classes:
 
@@ -20,7 +58,7 @@
 
 ---
 
-## 🧠 Model — YOLOv8s
+## Model — YOLOv8s
 
 ### Training Configuration
 
@@ -55,7 +93,7 @@
 
 ---
 
-## 🎯 Detection & Counting
+## Detection & Counting
 
 Frame-by-frame detection on aerial traffic video with:
 - Custom color-coded bounding boxes per class
@@ -66,7 +104,7 @@ Frame-by-frame detection on aerial traffic video with:
 
 ---
 
-## 🔁 Multi-Tracker Comparison
+## Multi-Tracker Comparison
 
 | Tracker | Type | Speed | Occlusion Handling | Re-ID |
 |---|---|---|---|---|
@@ -77,7 +115,7 @@ Frame-by-frame detection on aerial traffic video with:
 
 ---
 
-## 🚀 Quick Start
+##  Quick Start
 
 ```bash
 pip install ultralytics supervision albumentations
@@ -100,7 +138,7 @@ model.track('your_drone_video.mp4', tracker='botsort.yaml', conf=0.25, save=True
 
 ---
 
-## ⚠️ Limitations
+## Limitations
 
 - **Small object recall**: YOLOv8s misses objects smaller than 8×8 px at aerial altitude (bicycle mAP50 = 0.238)
 - **Class imbalance**: Rare classes (bus, awning-tricycle) have very few training samples → low AP
@@ -109,7 +147,7 @@ model.track('your_drone_video.mp4', tracker='botsort.yaml', conf=0.25, save=True
 
 ---
 
-## 🔧 Challenges Faced
+## Challenges Faced
 
 - **VisDrone annotation format**: 1-indexed categories and `score=0` ignored regions required careful parser logic to avoid label leakage
 - **DDP on Kaggle**: `device=[0,1]` returns `None` for the results object — fixed with `exist_ok=True` and absolute output paths
@@ -118,7 +156,7 @@ model.track('your_drone_video.mp4', tracker='botsort.yaml', conf=0.25, save=True
 
 ---
 
-## 📈 Sample Outputs
+## Sample Outputs
 
 | EDA — Class Distribution | Confusion Matrix |
 |---|---|
@@ -130,7 +168,7 @@ model.track('your_drone_video.mp4', tracker='botsort.yaml', conf=0.25, save=True
 
 ---
 
-## 🛠️ Environment
+## Environment
 
 - Platform: Kaggle (dual T4 GPU)
 - Python: 3.12
@@ -140,7 +178,7 @@ model.track('your_drone_video.mp4', tracker='botsort.yaml', conf=0.25, save=True
 
 ---
 
-## 👩‍💻 Author
+## Author
 
 **Maliha Hasin** — BSc CSE (Data Science), East West University
 GitHub: [@hesney-hasin](https://github.com/hesney-hasin)
