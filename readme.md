@@ -118,6 +118,12 @@ Frame-by-frame detection on aerial traffic video with:
 
 **Recommendation**: BoT-SORT performs best on drone footage due to global motion compensation (GMC) that handles aerial camera pan and tilt, a unique challenge not addressed by ByteTrack.
 
+## Tracking Demo Videos
+
+| Tracker | Demo |
+| :--- | :--- |
+| ByteTrack | [▶ Watch Video](https://drive.google.com/file/d/1yUOYM1p1P5WIZ3s5YhagfA9ZKNP4sIBP/view?usp=sharing) |
+| BoT-SORT | [▶ Watch Video](https://drive.google.com/file/d/1UHUBYP6bAYR_r3A0lCdE37tAfrkPYGsy/view?usp=sharing) |
 ---
 
 ##  Quick Start
